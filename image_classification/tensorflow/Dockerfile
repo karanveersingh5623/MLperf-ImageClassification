@@ -22,6 +22,8 @@ RUN apt-get update
 RUN apt-get install -y build-essential python3.7 python3.7-dev python3-pip python3.7-venv
 RUN apt-get install -y git
 
+#RUN ln -s /usr/bin/python3.7 /usr/bin/python
+
 # update pip
 RUN python3.7 -m pip install pip --upgrade
 RUN python3.7 -m pip install wheel
@@ -38,7 +40,7 @@ RUN apt-get install -y python-setuptools
 RUN apt-get install -y python-pip python3-pip virtualenv htop
 RUN pip3 install setuptools
 #RUN pip3 install --upgrade setuptools
-RUN pip3 install --upgrade numpy==1.19.0
+RUN pip3 install --upgrade numpy==1.18.3
 RUN pip3 install --upgrade scipy sklearn tf-nightly-gpu
 #RUN pip3 install --upgrade numpy
 #RUN pip3 install scipy
@@ -53,6 +55,11 @@ ADD . /research/resnet
 WORKDIR /research/resnet
 RUN pip3 install -r official/requirements.txt
 
+
+RUN rm /usr/bin/python
+RUN ln -s /usr/bin/python3.7 /usr/bin/python
+
+RUN pip3 install mlperf_compliance
 
 ENTRYPOINT ["/bin/bash"]
 
